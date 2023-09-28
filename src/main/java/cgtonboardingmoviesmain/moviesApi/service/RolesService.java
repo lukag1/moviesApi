@@ -11,10 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.*;
 
 @Service
 public class RolesService {
@@ -51,13 +53,28 @@ public class RolesService {
             roleDto.setActorId(actorId);
             roleDto.setFullName((String) result.get("full_name"));
             roleDto.setImageName((String) result.get("image_name"));
-            roleDto.setActorImage("actorImageId_"+actorId+".jpg");
+            roleDto.setActorImage(base64Converter((String) result.get("image_name")));
             roleDto.setRoleName(role.getRoleName());
 
             roleDtoList.add(roleDto);
         }
 
         return roleDtoList;
+    }
+
+    String base64Converter(String name) {
+        File file = new File("C:\\Users\\gluka\\Documents\\Onboarding Project\\actorsApi\\"+name);
+
+        String base64;
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] fileContent = new byte[(int) file.length()];
+            fis.read(fileContent);
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);
+            base64 = "<base64 image>," + encodedString;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return base64;
     }
 
     public String getGenreIdToGenreName(int genreId){

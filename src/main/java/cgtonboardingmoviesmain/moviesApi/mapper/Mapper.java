@@ -73,7 +73,7 @@ public class Mapper {
         movie.setYear(createMovieDto.getYear());
 
         String[] name = createMovieDto.getMovieImage().split(",");
-        String dataUri = name[0];
+        String dataUri = name[1];
         Random random = new Random();
         try {
             byte[] decodedBytes = Base64.getDecoder().decode(dataUri);
