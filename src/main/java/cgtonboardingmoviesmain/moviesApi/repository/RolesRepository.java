@@ -1,17 +1,13 @@
 package cgtonboardingmoviesmain.moviesApi.repository;
 
-import cgtonboardingmoviesmain.moviesApi.ActorsApiConnect;
+import cgtonboardingmoviesmain.moviesApi.actorsHelper.ActorsApiConnect;
 import cgtonboardingmoviesmain.moviesApi.domain.Movie;
 import cgtonboardingmoviesmain.moviesApi.domain.Roles;
 import cgtonboardingmoviesmain.moviesApi.dto.RoleDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package cgtonboardingmoviesmain.moviesApi.repository;
 
-import cgtonboardingmoviesmain.moviesApi.FileManager;
+import cgtonboardingmoviesmain.moviesApi.FilesHandler.FileManager;
 import cgtonboardingmoviesmain.moviesApi.domain.Movie;
 import cgtonboardingmoviesmain.moviesApi.domain.Roles;
 import cgtonboardingmoviesmain.moviesApi.dto.CreateMovieDto;
@@ -15,8 +15,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package cgtonboardingmoviesmain.moviesApi;
+package cgtonboardingmoviesmain.moviesApi.actorsHelper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package cgtonboardingmoviesmain.moviesApi.Logger;
+package cgtonboardingmoviesmain.moviesApi.logger;
 
 public class LoggerModel {
 

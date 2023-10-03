@@ -1,8 +1,8 @@
 package cgtonboardingmoviesmain.moviesApi.controller;
 
-import cgtonboardingmoviesmain.moviesApi.Logger.LogLevel;
-import cgtonboardingmoviesmain.moviesApi.Logger.LoggerImpl;
-import cgtonboardingmoviesmain.moviesApi.Logger.LoggerModel;
+import cgtonboardingmoviesmain.moviesApi.logger.LogLevel;
+import cgtonboardingmoviesmain.moviesApi.logger.LoggerImpl;
+import cgtonboardingmoviesmain.moviesApi.logger.LoggerModel;
 import cgtonboardingmoviesmain.moviesApi.dto.CreateMovieDto;
 import cgtonboardingmoviesmain.moviesApi.dto.MovieDto;
 import cgtonboardingmoviesmain.moviesApi.service.MoviesService;

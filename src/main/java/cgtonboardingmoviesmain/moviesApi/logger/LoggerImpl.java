@@ -1,4 +1,4 @@
-package cgtonboardingmoviesmain.moviesApi.Logger;
+package cgtonboardingmoviesmain.moviesApi.logger;
 
 
 import java.time.ZoneId;

@@ -1,23 +1,13 @@
 package cgtonboardingmoviesmain.moviesApi.mapper;
 
-import cgtonboardingmoviesmain.moviesApi.FileManager;
+import cgtonboardingmoviesmain.moviesApi.FilesHandler.FileManager;
 import cgtonboardingmoviesmain.moviesApi.controller.MoviesController;
 import cgtonboardingmoviesmain.moviesApi.domain.Movie;
 import cgtonboardingmoviesmain.moviesApi.dto.CreateMovieDto;
 import cgtonboardingmoviesmain.moviesApi.dto.MovieDto;
-import cgtonboardingmoviesmain.moviesApi.exception.InternalServerErrorException;
 import cgtonboardingmoviesmain.moviesApi.service.RolesService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.Random;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 

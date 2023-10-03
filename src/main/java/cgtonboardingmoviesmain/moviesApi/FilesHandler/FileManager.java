@@ -1,4 +1,4 @@
-package cgtonboardingmoviesmain.moviesApi;
+package cgtonboardingmoviesmain.moviesApi.FilesHandler;
 
 import cgtonboardingmoviesmain.moviesApi.domain.Movie;
 import cgtonboardingmoviesmain.moviesApi.dto.CreateMovieDto;
