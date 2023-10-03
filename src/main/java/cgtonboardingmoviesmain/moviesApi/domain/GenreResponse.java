@@ -1,4 +1,4 @@
-package cgtonboardingmoviesmain.moviesApi.service;
+package cgtonboardingmoviesmain.moviesApi.domain;
 
 public class GenreResponse {
     private int genreId;
