@@ -4,6 +4,10 @@ import cgtonboardingmoviesmain.moviesApi.actorsHelper.ActorsApiConnect;
 import cgtonboardingmoviesmain.moviesApi.domain.Movie;
 import cgtonboardingmoviesmain.moviesApi.domain.Roles;
 import cgtonboardingmoviesmain.moviesApi.dto.RoleDto;
+import cgtonboardingmoviesmain.moviesApi.logger.LoggerModel;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,11 +17,9 @@ import java.util.Map;
 
 @Repository
 public class RolesRepository {
-
     MoviesRepository moviesRepository;
     JdbcTemplate jdbcTemplate;
     ActorsApiConnect apiConnect;
-
 
     public RolesRepository(MoviesRepository moviesRepository, JdbcTemplate jdbcTemplate,ActorsApiConnect apiConnect) {
         this.moviesRepository = moviesRepository;
@@ -25,27 +27,43 @@ public class RolesRepository {
         this.apiConnect = apiConnect;
     }
 
-    public List<RoleDto> getRoles(Movie movie){
-        List<Roles> rolesList = moviesRepository.getRoles(movie.getMovieId());
-
+    public List<RoleDto> getRoles(Movie movie, LoggerModel lm) {
         List<RoleDto> roleDtoList = new ArrayList<>();
+        if (movie != null) {
+            List<Roles> rolesList = moviesRepository.getRoles(movie.getMovieId(), lm);
+            if(rolesList != null){
+            try {
+                for (Roles role : rolesList) {
+                    int actorId = role.getActorId();
+                    String sql = "SELECT full_name, image_name FROM actorsdb.actors WHERE actor_id = ?";
+                    Map<String, Object> result = jdbcTemplate.queryForMap(sql, actorId);
 
-        for (Roles role : rolesList) {
-            int actorId = role.getActorId();
-            String sql = "SELECT full_name, image_name FROM actorsdb.actors WHERE actor_id = ?";
+                    RoleDto roleDto = new RoleDto();
+                    roleDto.setActorId(actorId);
+                    roleDto.setFullName((String) result.get("full_name"));
+                    roleDto.setImageName((String) result.get("image_name"));
+                    String actorImage = apiConnect.getActorImage(actorId,lm);
+                    if(actorImage.isBlank()){
+                        //log error with apiConnect
+                    }else {
+                        //log is good
+                        roleDto.setActorImage(actorImage);
+                    }
+                    roleDto.setRoleName(role.getRoleName());
 
-            Map<String, Object> result = jdbcTemplate.queryForMap(sql, actorId);
-
-            RoleDto roleDto = new RoleDto();
-            roleDto.setActorId(actorId);
-            roleDto.setFullName((String) result.get("full_name"));
-            roleDto.setImageName((String) result.get("image_name"));
-            roleDto.setActorImage(apiConnect.getActorImage(actorId));
-            roleDto.setRoleName(role.getRoleName());
-
-            roleDtoList.add(roleDto);
+                    roleDtoList.add(roleDto);
+                }
+            } catch (IncorrectResultSizeDataAccessException e) {
+                //throw
+            } catch (DataAccessException e) {
+                //throw
+            }
+            }else {
+                //log error with rep.getRoles
+            }
+        } else {
+            //log movie doesnt exist
         }
-
         return roleDtoList;
     }
 

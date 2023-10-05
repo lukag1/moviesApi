@@ -1,10 +1,13 @@
 package cgtonboardingmoviesmain.moviesApi.mapper;
 
-import cgtonboardingmoviesmain.moviesApi.FilesHandler.FileManager;
+import cgtonboardingmoviesmain.moviesApi.filesHandler.FileManager;
 import cgtonboardingmoviesmain.moviesApi.controller.MoviesController;
 import cgtonboardingmoviesmain.moviesApi.domain.Movie;
 import cgtonboardingmoviesmain.moviesApi.dto.CreateMovieDto;
 import cgtonboardingmoviesmain.moviesApi.dto.MovieDto;
+import cgtonboardingmoviesmain.moviesApi.logger.LogLevel;
+import cgtonboardingmoviesmain.moviesApi.logger.LoggerImpl;
+import cgtonboardingmoviesmain.moviesApi.logger.LoggerModel;
 import cgtonboardingmoviesmain.moviesApi.service.RolesService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -13,20 +16,19 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Component
 public class Mapper {
-    JdbcTemplate jdbcTemplate;
     RolesService rolesService;
-
     FileManager fileManager;
 
-    public Mapper(RolesService rolesService,JdbcTemplate jdbcTemplate, FileManager fileManager) {
+    LoggerImpl logger;
+    public Mapper(RolesService rolesService, FileManager fileManager,LoggerImpl logger) {
         this.rolesService = rolesService;
-        this.jdbcTemplate = jdbcTemplate;
         this.fileManager = fileManager;
+        this.logger = logger;
     }
 
-    public MovieDto movieToMovieDto(Movie movie){
+    public MovieDto movieToMovieDto(Movie movie, LoggerModel lm){
         MovieDto movieDto = new MovieDto();
-
+        logger.formatLogMessageGen(LogLevel.INFO, lm, "Mapping movie to Movie Dto started");
         movieDto.setMovieId(movie.getMovieId());
         movieDto.setName(movie.getName());
         movieDto.setHref(linkTo(MoviesController.class).slash(movieDto.getMovieId()).toString());
@@ -36,16 +38,17 @@ public class Mapper {
         movieDto.setDescription(movie.getDescription());
         movieDto.setYear(movie.getYear());
         movieDto.setRuntime(movie.getRuntime());
-        movieDto.setRoles(rolesService.getRoleFull(movie));
+        movieDto.setRoles(rolesService.getRoleFull(movie, lm));
         movieDto.setMovieImageName(movie.getMovieImageName());
-        movieDto.setGenreName(rolesService.getGenreIdToGenreName(movie.getGenre()));
+        movieDto.setGenreName(rolesService.getGenreIdToGenreName(movie.getGenre(),lm));
         movieDto.setMovieImage(fileManager.saveCode(movie));
-
+        logger.formatLogMessageGen(LogLevel.INFO, lm, "Mapping movie to Movie Dto finished");
         return movieDto;
     }
 
-    public Movie createMovieDtoToMovie(CreateMovieDto createMovieDto){
+    public Movie createMovieDtoToMovie(CreateMovieDto createMovieDto,LoggerModel lm){
         Movie movie = new Movie();
+        logger.formatLogMessageGen(LogLevel.INFO, lm, "Mapping Movie Dto to movie started");
 
         movie.setName(createMovieDto.getName());
         movie.setGenre(createMovieDto.getGenreId());
@@ -58,6 +61,7 @@ public class Mapper {
         movie.setMovieImageName(fileManager.saveImageName(createMovieDto));
         movie.setRoles(createMovieDto.getActors());
 
+        logger.formatLogMessageGen(LogLevel.INFO, lm, "Mapping Movie Dto to movie finished");
         return movie;
     }
 

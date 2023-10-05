@@ -37,6 +37,12 @@ public class LoggerImpl {
 
         return lm;
     }
+    public void printLogMess(String logLevel, String message){
+        LoggerModel lm = new LoggerModel();
+        lm.setLogLevel(logLevel);
+        lm.setLogMessage(message);
+        logMessage(lm);
+    }
 
     public void formatLogMessageGen(String logLevel, LoggerModel lmIn, String message) {
         LoggerModel lm = new LoggerModel();
