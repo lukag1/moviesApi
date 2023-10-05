@@ -41,7 +41,7 @@ public class Mapper {
         movieDto.setRoles(rolesService.getRoleFull(movie, lm));
         movieDto.setMovieImageName(movie.getMovieImageName());
         movieDto.setGenreName(rolesService.getGenreIdToGenreName(movie.getGenre(),lm));
-        movieDto.setMovieImage(fileManager.saveCode(movie));
+        movieDto.setMovieImage(fileManager.saveCode(movie,lm));
         logger.formatLogMessageGen(LogLevel.INFO, lm, "Mapping movie to Movie Dto finished");
         return movieDto;
     }
@@ -58,7 +58,7 @@ public class Mapper {
         movie.setRuntime(createMovieDto.getRuntime());
         movie.setDescription(createMovieDto.getDescription());
         movie.setYear(createMovieDto.getYear());
-        movie.setMovieImageName(fileManager.saveImageName(createMovieDto));
+        movie.setMovieImageName(fileManager.saveImageName(createMovieDto,lm));
         movie.setRoles(createMovieDto.getActors());
 
         logger.formatLogMessageGen(LogLevel.INFO, lm, "Mapping Movie Dto to movie finished");

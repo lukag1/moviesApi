@@ -178,7 +178,7 @@ public class MovieRepositoryImp implements MoviesRepository {
         Movie movie = findById(id, lm);
         if(movie != null){
             try{
-                fileManager.deleteImage(movie);
+                fileManager.deleteImage(movie,lm);
 
                 String deleteRolesSql = "DELETE FROM roles WHERE movie_id = ?";
                 jdbcTemplate.update(deleteRolesSql, id);
@@ -212,7 +212,7 @@ public class MovieRepositoryImp implements MoviesRepository {
                     createMovieDto.getDescription(),
                     createMovieDto.getDirector(),
                     createMovieDto.getRuntime(),
-                    fileManager.updateImage(createMovieDto, findById(id, lm)),
+                    fileManager.updateImage(createMovieDto, findById(id, lm),lm),
                     id
             );
             logger.formatLogMessageGen(LogLevel.INFO, lm, "Updated in repository");
